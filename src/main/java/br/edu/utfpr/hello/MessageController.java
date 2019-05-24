@@ -71,6 +71,13 @@ public class MessageController {
         return new RedirectView("/mensagens", true);
     }
 
+    @RequestMapping(path = "/form-redirect-string", method = RequestMethod.POST)
+    public String persistRedirect(@ModelAttribute("m") Message message, RedirectAttributes redirectAttributes) {
+        messageService.save(message);
+        redirectAttributes.addFlashAttribute("msg", "Cadastro feito com sucesso!");
+        return "redirect:/mensagens";
+    }
+
     @RequestMapping(method = RequestMethod.GET)
     public ModelAndView showMessageList() {
 
