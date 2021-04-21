@@ -27,6 +27,7 @@ public class MessageController {
     @Autowired
     MessageService messageService;
 
+    //chamada: /mensagens/falar?m=oi
     @RequestMapping(value = {"/falar", "/f"}, method = RequestMethod.GET)
     public ModelAndView messageParam(@RequestParam("m") String msg) {
         ModelAndView mv = new ModelAndView("message.jsp");
@@ -34,6 +35,7 @@ public class MessageController {
         return mv;
     }
 
+    //chamada: /mensagens/falar/oi
     @RequestMapping(path = "/falar/{m}", method = RequestMethod.GET)
     public ModelAndView messageVariable(@PathVariable("m") String msg) {
         ModelAndView mv = new ModelAndView("message.jsp");
@@ -41,15 +43,25 @@ public class MessageController {
         return mv;
     }
 
+    //chamada: /mensagens/gritar?m=oi
     @RequestMapping(value = "/gritar", method = RequestMethod.GET)
-    public String messageModel(@RequestParam("m") String msg, Model model) {
+            public String messageModel(@RequestParam("m") String msg, Model model) {
         model.addAttribute("msg", msg.toUpperCase());
         return "message.jsp";
     }
 
+    @RequestMapping(method = RequestMethod.GET)
+    public ModelAndView showMessageList() {
+
+        List<Message> messages = messageService.findAll();
+
+        ModelAndView mv = new ModelAndView("list-messages.jsp", "messages", messages);
+        return mv;
+    }
+
     @RequestMapping(path = "/form", method = RequestMethod.GET)
     public ModelAndView showForm() {
-        ModelAndView mv = new ModelAndView("form.jsp", "m", new Message());
+        ModelAndView mv = new ModelAndView("form.jsp", "m", new Message("Roni", "oi"));
         return mv;
     }
 
@@ -67,7 +79,10 @@ public class MessageController {
     @RequestMapping(path = "/form-redirect", method = RequestMethod.POST)
     public RedirectView persist(@ModelAttribute("m") Message message, RedirectAttributes redirectAttributes) {
         messageService.save(message);
+        //atributo é guardado na sessão temporariamente
         redirectAttributes.addFlashAttribute("msg", "Cadastro feito com sucesso!");
+        //atributo é enviado como query parameter
+        redirectAttributes.addAttribute("status", "success");
         return new RedirectView("/mensagens", true);
     }
 
@@ -77,19 +92,6 @@ public class MessageController {
         redirectAttributes.addFlashAttribute("msg", "Cadastro feito com sucesso!");
         return "redirect:/mensagens";
     }
-
-    @RequestMapping(method = RequestMethod.GET)
-    public ModelAndView showMessageList() {
-
-        List<Message> messages = messageService.findAll();
-
-        ModelAndView mv = new ModelAndView("list-messages.jsp", "messages", messages);
-        return mv;
-    }
-
-
-
-
 
 
 }
