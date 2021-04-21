@@ -16,11 +16,11 @@
         <title>Mensagem</title>
     </head>
     <body>
-        <h1>Mensagem</h1>
+        <h1>My Message</h1>
         <h3>${msg}</h3>
 
         <br><br>
-        <a href="/mensagens">Ver todas as mensagens</a>
+        <a href="${pageContext.request.contextPath}/mensagens">Ver todas as mensagens</a>
     </body>
 </html>
 

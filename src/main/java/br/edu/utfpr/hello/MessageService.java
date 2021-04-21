@@ -28,4 +28,5 @@ public class MessageService {
     public List<Message> findAll() {
         return messageRepository.findAll();
     }
+
 }

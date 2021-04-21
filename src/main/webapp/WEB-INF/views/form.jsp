@@ -18,7 +18,7 @@
     <body>
         <h1>Envie uma mensagem para o mural:</h1>
         <h2>Nova mensagem de novo.</h2>
-        <form:form method="post" modelAttribute="m" action="/mensagens/form">
+        <form:form method="post" modelAttribute="m" action="${pageContext.request.contextPath}/mensagens/form-redirect">
             Nome:
             <form:input path="name"/>
             Mensagem:
