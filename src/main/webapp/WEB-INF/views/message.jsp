@@ -16,7 +16,7 @@
         <title>Mensagem</title>
     </head>
     <body>
-        <h1>Minha Mensagem</h1>
+        <h1>My Message</h1>
         <h3>${msg}</h3>
 
         <br><br>
